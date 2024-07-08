@@ -5,6 +5,8 @@ npm run prepush
 if [ $? -eq 0 ]; then
   echo "Tests passed successfully."
 else
+{
   echo "Tests failed. Please fix the errors and try again."
   exit 1
+}
 fi
