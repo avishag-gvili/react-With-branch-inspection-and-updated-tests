@@ -1,4 +1,10 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-npm run prepush
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+echo "Running tests..."
+npm test
+if [ $? -eq 0 ]; then
+  echo "Tests passed successfully."
+else
+  echo "Tests failed. Please fix the errors and try again."
+  exit 1
+fi
