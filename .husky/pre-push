@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 echo "Running tests..."
-npm test
+npm run prepush
 if [ $? -eq 0 ]; then
   echo "Tests passed successfully."
 else

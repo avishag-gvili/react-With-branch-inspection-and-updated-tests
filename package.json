@@ -15,6 +15,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
+    "prepush":"npm test",
     "precommit": "echo commit passed successfully!",
     "eject": "react-scripts eject",
     "prepare": "husky install"
