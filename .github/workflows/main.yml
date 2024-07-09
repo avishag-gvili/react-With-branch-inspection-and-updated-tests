@@ -37,10 +37,10 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Validate branch name
-        run: |
-          branch_name=${GITHUB_REF##refs/heads/}
-          if [[ ! $branch_name =~ ^name/ ]]; then
-            echo "Branch name does not follow the required pattern (name/*)."
-            exit 1
-          fi
+    name: Validate branch name
+     run:|
+     branch_name=$(echo $GITHUB_REF | cut -d '/' -f 2-)
+     if [[ ! $branch_name =~ ^name/[a-zA-Z0-9_-]+$ ]]; then
+     echo "Branch name does not follow the required pattern (name/[a-zA-Z0-9_-]+)."
+     exit 1
+     fi
