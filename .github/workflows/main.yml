@@ -1,4 +1,5 @@
 name: CI/CD
+
 on:
   push:
     branches:
@@ -6,41 +7,40 @@ on:
   pull_request:
     branches:
       - 'name/*'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      # Set up Node.js environment
+      - uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
-      # Install dependencies
+          node-version: '16'  # Adjust as needed
+
       - name: Install dependencies
         run: npm install
-        
-    # Run tests in all files within the 'test' directory
+
       - name: Run tests in 'test' directory
         run: |
-         if [ -d test ]; then  # Check if the 'test' directory exists
-          for file in test/*; do
-          if [ -f "$file" ]; then
-          npm test "$file"
+          if [[ -d test ]]; then  # Use double square brackets for security
+            for file in test/*; do
+              if [[ -f "$file" ]]; then
+                npm test "$file"
+              fi
+            done
+          else
+            echo "'test' directory not found. Skipping tests."
           fi
-         done
-         else
-         echo "'test' directory not found. Skipping tests."
-         fi
 
-      # Build the project
       - name: Build project
         run: npm run build
-      # Validate branch name
+
       - name: Validate branch name
-        if: "!startsWith(github.ref, 'refs/heads/name/')"
         run: |
-          echo "Branch name does not follow the required pattern."
-          exit 1
+          branch_name=${GITHUB_REF##refs/heads/}
+          if [[ ! $branch_name =~ ^name/ ]]; then
+            echo "Branch name does not follow the required pattern (name/*)."
+            exit 1
+          fi
