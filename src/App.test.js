@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
-console.log("1זזזזזזזז")
+console.log("1זזזזז444זזז")
 test('renders learn react link', () => {
   // expect(true).toEqual(false)
   render(<App />);
