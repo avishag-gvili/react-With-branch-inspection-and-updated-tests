@@ -37,10 +37,18 @@ jobs:
       - name: Build project
         run: npm run build
 
-    name: Validate branch name
-     run:|
-     branch_name=$(echo $GITHUB_REF | cut -d '/' -f 2-)
-     if [[ ! $branch_name =~ ^name/[a-zA-Z0-9_-]+$ ]]; then
-     echo "Branch name does not follow the required pattern (name/[a-zA-Z0-9_-]+)."
-     exit 1
-     fi
+      # Validate branch name
+      - name: Validate branch name
+        run: |
+          echo "Validating branch name..."
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BRANCH_NAME=${{ github.head_ref }}
+          else
+            BRANCH_NAME=${{ github.ref_name }}
+          fi
+          echo "Current branch: $BRANCH_NAME"
+          if [[ ! "$BRANCH_NAME" =~ ^name/[a-zA-Z0-9_-]+$ && "$BRANCH_NAME" != "master" ]]; then
+            echo "Branch name does not follow the required pattern (name/branchname or master)."
+            exit 1
+          fi
+          echo "Branch name is valid."
