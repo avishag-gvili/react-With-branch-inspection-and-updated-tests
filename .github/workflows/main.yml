@@ -21,14 +21,20 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: npm install
-    # Run tests if the test file exists
-      - name: Run tests if test file exists
+        
+    # Run tests in all files within the 'test' directory
+      - name: Run tests in 'test' directory
         run: |
-         if [ -f path/to/your/test/file.js ]; then
-         npm test
+         if [ -d test ]; then  # Check if the 'test' directory exists
+          for file in test/*; do
+          if [ -f "$file" ]; then
+          npm test "$file"
+          fi
+         done
          else
-         echo "No test file found. Skipping tests."
+         echo "'test' directory not found. Skipping tests."
          fi
+
       # Build the project
       - name: Build project
         run: npm run build
