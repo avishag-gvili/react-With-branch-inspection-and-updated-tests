@@ -58,7 +58,7 @@ jobs:
             exit 1
           fi
 
-
+```
 ## Workflow Explanation
 on: The CI workflow triggers on any push to any branch or pull_request to the main branch.
 jobs: The steps of the workflow:
